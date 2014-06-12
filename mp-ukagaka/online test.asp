@@ -1,0 +1,426 @@
+<%
+set con=Server.CreateObject("adodb.connection") 
+connstr="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" & Server.MapPath("score.mdb") 
+con.Open connstr 
+
+op=trim(request.querystring("op"))
+if op="add_msg" then
+set rs=server.createobject("adodb.recordset")
+sql="select * from score"
+rs.Open sql,con,1,3 
+rs.addnew
+rs("s_name")=request.form("username")
+rs("s_score")=request.form("totalscore")
+rs.update
+rs.close
+set rs=nothing
+con.close
+set con=nothing
+
+end if
+%>
+
+
+
+<html>
+<head>
+    <title>中央教条 | MAGI问答</title>
+    <script src="jquery.textarearesizer.compressed.js"></script>
+    <script src="ukagaka.js"></script>
+    <link rel="stylesheet" type="text/css" href="mpu_style.css">
+    <link rel="stylesheet" type="text/css" href="CSS.css">
+</head>
+
+
+<script language="javascript"> 
+var a=new Array()
+var lasting=0;
+var i
+
+
+function startTime()  
+{  
+    var today=new Date()  
+    var h=today.getHours()  
+    var m=today.getMinutes()  
+    var s=today.getSeconds()//add a zero in front of numbers<10  
+    m=checkTime(m)  
+    s=checkTime(s)  
+    document.getElementById('txt').innerHTML=h+":"+m+":"+s  
+    t=setTimeout('startTime()',500)
+    if(0<=h&&h<=12) 
+        document.getElementById('time').innerHTML="早上好."
+    if(12<=h&&h<=18) 
+        document.getElementById('time').innerHTML="下午好."
+    if(18<=h&&h<=24) 
+        document.getElementById('time').innerHTML="晚上好." 
+}  
+
+ 
+function checkTime(i)  
+{ 
+    lasting++
+    if(i<10)   
+        i="0" + i  
+    return i  
+}  
+
+
+for(i=0;i<13;i++)
+{
+    a[i]=0
+}
+
+
+function q1(obj) 
+{
+    a[0]= parseInt(obj.value)
+}
+function q2(obj) 
+{
+    a[1]= parseInt(obj.value)
+}
+function q3(obj) 
+{
+    a[2]= parseInt(obj.value)
+}
+function q4(obj) 
+{
+    a[3]= parseInt(obj.value)
+}
+function q5(obj) 
+{
+    a[4]= parseInt(obj.value)
+}
+function q6(obj) 
+{
+    a[5]= parseInt(obj.value)
+}
+function q7(obj) 
+{
+    a[6]= parseInt(obj.value)
+}
+function q8(obj) 
+{
+    a[7]= parseInt(obj.value)
+}
+function q9(obj) 
+{
+    a[8]= parseInt(obj.value)
+}
+function q10(obj) 
+{
+    a[9]= parseInt(obj.value)
+}
+
+var num_0=0
+function q11(obj) 
+{
+    num_0= num_0+parseInt(obj.value)
+    if(num_0==3)
+        a[10]=1
+}
+
+var num_1=0
+function q12(obj) 
+{
+    num_1= num_1+parseInt(obj.value)
+    if(num_1==3)
+       a[11]=1
+}
+
+function q13() 
+{
+    var str=document.vacuum.question13.value;
+    if(str=="25.71")
+        a[12]=1
+}
+
+function submit1() 
+{
+    var score=0
+    var loop
+    q13();
+    for(loop=0;loop<13;loop++) 
+    {
+        score = score+a[loop]
+     }
+    document.transfer.totalscore.value=score
+    alert("你完成的时间为"+Math.floor(lasting/240)+"分"+Math.round(Math.floor(lasting/4)%60)+"秒，你做对的题目数量："+score)
+    if(score<=3)
+        window.open("result/normal.html","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400")
+    if(score>=4 && score<=11)
+        window.open("result/expert.html","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400")
+    if(score>=12)
+        window.open("result/master.html","_blank","toolbar=yes, location=yes, directories=no, status=no, menubar=yes, scrollbars=yes, resizable=no, copyhistory=yes, width=400, height=400")
+    location.reload()
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body background="background.png" bgproperties=fixed onload="startTime()" >
+
+    <div class="bg"></div> 
+    <br>
+    <div id="ibox">
+     
+    <div id="ibox01" class="testboxbg"></div>
+    <div id="ibox02" class="testboxbg"></div>
+    <div id="ibox03" class="testboxbg"></div>
+    <div id="ibox04" class="testboxbg"></div>
+    <div id="ibox05" class="testboxbg"></div>
+    <div id="boxcon" class="testboxcon">
+   
+
+    <div style="overflow:hidden;width:700;height=100">  
+        <h2><br></h2>
+        <h1 align="center">MAGI问答</h1>
+        <p align="center">感谢本题目由<a href="http://bangumi.tv" title="bangumi.tv">BGM</a>提供。<br>测试分为三部分，第一部分为单选题，第二部分为复选题，第三部分为填空题。<br>我是计算机七班的宁小东。</p>
+        <div align="center" id="time"></div>
+        <div align="center" id="txt"></div>    
+    </div>
+        
+
+    <div id="picture_0">
+    </div> 
+
+
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp1.EVANS的作曲家是</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question1" value="0" onclick="q1(this)">RYO<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question1" value="0" onclick="q1(this)">ESTi<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question1" value="1" onclick="q1(this)">DJ Yoshitaka<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question1" value="0" onclick="q1(this)">鹭巢诗郎</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp2.凉宫春日的发带颜色按照星期一到星期五的正确顺序是</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question2" value="0" onclick="q2(this)">金→红→蓝→绿→茶→黄→白<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question2" value="1" onclick="q2(this)">黄→红→蓝→绿→金→茶→白<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question2" value="0" onclick="q2(this)">茶→红→绿→蓝→黄→金→白<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question2" value="0" onclick="q2(this)">白→金→绿→蓝→黄→茶→红</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp3.(東方)以下与射命丸文无关的BGM最可能是</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question3" value="0" onclick="q3(this)">妖怪の山～Mysterious Mountain<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question3" value="0" onclick="q3(this)">無間の鐘～Infinite Nightmare<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question3" value="0" onclick="q3(this)">フォールオブフォール ～ 秋めく滝<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question3" value="1" onclick="q3(this)">信仰は儚き人間の為に</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp4.120日元系列中，冬与夏篇的女主角关系为</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question4" value="1" onclick="q4(this)">姐妹<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question4" value="0" onclick="q4(this)">朋友<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question4" value="0" onclick="q4(this)">母女<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question4" value="0" onclick="q4(this)">不认识</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp5.萬智牌（Magic The Gathering）中，有死觸效果的生物在攻擊對方玩家時會______</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question5" value="0" onclick="q5(this)">不能被阻擋<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question5" value="0" onclick="q5(this)">只能被兩個以上生物阻擋<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question5" value="0" onclick="q5(this)">消滅阻擋生物<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question5" value="1" onclick="q5(this)">消滅造成傷害的生物</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp6.看过《Angel Beats!》的人也去会对剧中的人物TK印象较深，虽然角色设定他的美语很烂，但是剧中他的美语发音却很标准，原因是什么？</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question6" value="0" onclick="q6(this)">他的声优是个地道的美国人<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question6" value="0" onclick="q6(this)">他的声优是个地道的英国人<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question6" value="0" onclick="q6(this)">他的声优是个日英混血儿<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question6" value="1" onclick="q6(this)">他的声优是个日美混血儿</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp7.凤凰院凶真是正在被_______追捕的狂气的科学怪人</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question7" value="0" onclick="q7(this)">凉宫春日<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question7" value="1" onclick="q7(this)">古泉一树<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question7" value="0" onclick="q7(this)">朝比奈实玖瑠<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question7" value="0" onclick="q7(this)">长门有希</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp8.下列哪个会社的前身是做key同人的社团？</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question8" value="0" onclick="q8(this)">TYPE-MOON<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question8" value="0" onclick="q8(this)">KID<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question8" value="1" onclick="q8(this)">AUGUST<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question8" value="0" onclick="q8(this)">NEXTON</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp9.TV STEINS;GATE 中下面哪个作品没被NETA过</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question9" value="0" onclick="q9(this)">DEATH NOTE<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question9" value="0" onclick="q9(this)">CHAOS HEAD<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question9" value="0" onclick="q9(this)">CLANNAD<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question9" value="1" onclick="q9(this)">K-ON</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp10.「たからもの」是夏目友人帳第幾季的ED？</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question10" value="0" onclick="q10(this)">第一季<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question10" value="0" onclick="q10(this)">第二季<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question10" value="0" onclick="q10(this)">第三季<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="radio" name="question10" value="1" onclick="q10(this)">第四季</p>
+    </form>
+
+
+
+
+
+
+    </div>
+    <div id="ibox05" class="testboxbg"></div>
+    <div id="ibox04" class="testboxbg"></div>
+    <div id="ibox03" class="testboxbg"></div>
+    <div id="ibox02" class="testboxbg"></div> 
+    <div id="ibox01" class="testboxbg"></div>
+
+
+
+    <br>
+
+    <div id="ibox01" class="testboxbg"></div>
+    <div id="ibox02" class="testboxbg"></div>
+    <div id="ibox03" class="testboxbg"></div>
+    <div id="ibox04" class="testboxbg"></div>
+    <div id="ibox05" class="testboxbg"></div>
+    <div id="boxcon" class="testboxcon2">
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp11.G线上的魔王用到了以下哪个作曲家的曲子</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" name="question11" value="1" onclick="q11(this)">德彪西<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" name="question11" value="1" onclick="q11(this)">门德尔松<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" name="question11" value="1" onclick="q11(this)">巴赫<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" name="question11" value="0" onclick="q11(this)">莫扎特</p>
+    </form>
+    <form name="magi" 
+method="post">
+    <h3>&nbsp&nbsp12.以下哪個是米澤穗信的暴風雪山莊模式推理小說「算計」（「インシテミル」）中有特殊意義的名詞？、</h3>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" name="question12" value="1" onclick="q12(this)">「解決」<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" name="question12" value="1" onclick="q12(this)">「監獄」<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" name="question12" value="1" onclick="q12(this)">「夜晚」<br>
+       &nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" name="question12" value="0" onclick="q12(this)">「禍害」</p>
+    </form>
+    </p>
+
+    </div>
+    <div id="ibox05" class="testboxbg"></div>
+    <div id="ibox04" class="testboxbg"></div>
+    <div id="ibox03" class="testboxbg"></div>
+    <div id="ibox02" class="testboxbg"></div> 
+    <div id="ibox01" class="testboxbg"></div>
+
+
+
+    <br>
+
+
+
+    <div id="ibox01" class="testboxbg"></div>
+    <div id="ibox02" class="testboxbg"></div>
+    <div id="ibox03" class="testboxbg"></div>
+    <div id="ibox04" class="testboxbg"></div>
+    <div id="ibox05" class="testboxbg"></div>
+    <div id="boxcon" class="testboxcon3">
+
+    <form name="vacuum" method="post">
+    <h3>&nbsp&nbsp13.Diablo 3 里,你在RMAH 以 USD $33.83 卖出一件物品,选择支付到你的<br>&nbsp&nbspPAYPAL账户里,且你的注册地为非免税州,请问你PAYPAL账户实收到的金额是<br>&nbsp&nbsp多少(保留两位小数)<input type="text" name="question13"></h3>
+    </form>
+
+    </div>
+    <div id="ibox05" class="testboxbg"></div>
+    <div id="ibox04" class="testboxbg"></div>
+    <div id="ibox03" class="testboxbg"></div>
+    <div id="ibox02" class="testboxbg"></div> 
+    <div id="ibox01" class="testboxbg"></div>
+
+
+    <br>
+
+    <div id="ibox01" class="testboxbg"></div>
+    <div id="ibox02" class="testboxbg"></div>
+    <div id="ibox03" class="testboxbg"></div>
+    <div id="ibox04" class="testboxbg"></div>
+    <div id="ibox05" class="testboxbg"></div>
+    <div id="boxcon" class="testboxcon4">
+    <br>
+    <form name="transfer" method="post" action=?op=add_msg>
+    <table>
+    <tr>
+        <td>&nbsp&nbsp<i>您的名字:</i></td><td><input type="text" name="username"></td>
+    </tr>
+    <tr>
+        <td>&nbsp&nbsp<i>您的E-mail:</i></td><td><input type="text" name="useremail"><i>（不会显示给他人）</i></td>
+    </tr>
+    <tr>
+        <td>&nbsp&nbsp<i>您的意见:</i></td><td><textarea name="txtFeedback" rows="10" cols="50"></textarea></td>
+    </tr>
+    </table>
+
+
+    <input type="hidden" name="totalscore"> 
+
+
+
+
+    <br>
+    <br>
+
+    <p style="margin:0 auto; text-align:center;">
+    <input style=" width:60px; height:30px; font-size:15px;"  type="submit" value="提 交" onclick="submit1()" >
+    <input style=" width:60px; height:30px; font-size:15px;"  type="button" value="重 置" onclick="location.reload()" ></p>
+
+    </form> 
+
+    </div>
+    <div id="ibox05" class="testboxbg"></div>
+    <div id="ibox04" class="testboxbg"></div>
+    <div id="ibox03" class="testboxbg"></div>
+    <div id="ibox02" class="testboxbg"></div> 
+    <div id="ibox01" class="testboxbg"></div>
+
+
+
+    </div>
+    <br>
+    <div id="mp_ukagaka">
+        <div id="ukagaka_shell">
+	    <div id="ukagaka" style="display: block; ">
+	        <div id="ukagaka_msgbox" style="display: block; ">
+		    <div id="ukagaka_msg">轮回，无论几次，我依然选择轮回。无数次的探寻，寻找唯一的出口，寻找能将你从绝望命运中拯救出来的道路（话说这些题好难）。</div>
+			    <div id="ukagaka_msgnum" style="display:none;">0</div>
+			    <div id="ukagaka_msglist" style="display:none;">
+                            {"msgall":3,"auto_msg":"","msg":
+                             ["\u8f6e\u56de\uff0c\u65e0\u8bba\u51e0\u6b21\uff0c\u6211\u4f9d\u7136\u9009\u62e9\u8f6e\u56de\u3002\u65e0\u6570\u6b21\u7684\u63a2\u5bfb\uff0c\u5bfb\u627e\u552f\u4e00\u7684\u51fa\u53e3\uff0c\u5bfb\u627e\u80fd\u5c06\u4f60\u4ece\u7edd\u671b\u547d\u8fd0\u4e2d\u62ef\u6551\u51fa\u6765\u7684\u9053\u8def\u3002","\u5982\u679c\u5931\u53bb\u4f60\uff0c\u4f1a\u6709\u4eba\u4f24\u5fc3\u3002\u4e3a\u4ec0\u4e48\u4f60\u5c31\u662f\u4e0d\u660e\u767d\u3002\u90a3\u4e9b\u60f3\u8981\u5b88\u62a4\u4f60\u7684\u4eba\u53c8\u8be5\u4f55\u53bb\u4f55\u4ece\uff1f","\u867d\u7136\u8fd9\u662f\u4e00\u4e2a\u4e0d\u65ad\u91cd\u590d\u7740\u60b2\u54c0\u548c\u618e\u6068\u7684\u6ca1\u6551\u4e16\u754c\uff0c\u4f46\u8fd9\u91cc\u6bd5\u7adf\u66fe\u662f\u5979\u8bd5\u56fe\u4fdd\u62a4\u7684\u5730\u65b9\u3002\u6211\u4f1a\u7262\u8bb0\u8fd9\u4e00\u70b9\uff0c\u6c38\u4e0d\u5fd8\u8bb0\uff0c\u5e76\u4e3a\u4e4b\u800c\u6c38\u8fdc\u6218\u6597\u4e0b\u53bb\uff01","Don't forget. Always. Somewhere. Someone is fighting for you -- As long as you remember her, you are not alone."]}  
+                            </div>
+			    <div class="ukagaka-msgbox-border"></div>
+		    </div>
+		    <div id="ukagaka_img"><img id="cur_ukagaka" title="晓美焰" alt="晓美焰" src="images\shell\ukagaka-homura.png"></div>
+		    <div id="ukagaka_num" style="display:none;">3</div>
+		</div>
+	    <!-<div class="mpu-clear"></div>-->
+	    <!-<div class="ukagaka-dock">-->
+	    </div>
+	</div>
+    </div>
+    
+
+
+</body>
+</html>
+    
